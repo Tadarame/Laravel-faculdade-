@@ -1,0 +1,40 @@
+
+@baseUri = http://localhost:8182/api
+
+### Index
+GET {{baseUri}}/categories HTTP/1.1
+content-type: application/json
+
+### Store
+POST {{baseUri}}/categories HTTP/1.1
+content-type: application/json
+
+{
+    "name": "Categoria Nova",
+    "description": "Categoria criada via API/REST"
+}
+
+### Show
+# 126 é o ID da categoria neste exemplo.
+# Utilize um ID existente em sua base de dados.
+GET {{baseUri}}/categories/132 HTTP/1.1
+content-type: application/json
+
+### Update
+# 126 é o ID da categoria neste exemplo.
+# Utilize um ID existente em sua base de dados.
+PUT {{baseUri}}/categories/132 HTTP/1.1
+content-type: application/json
+
+{
+    "description": "Categoria up2 ATUALIZADA via API/REST"
+}
+
+### Delete
+# 126 é o ID da categoria neste exemplo.
+# Utilize um ID existente em sua base de dados.
+#
+# Após a execução deste processo, o mesmo ID não funcionará
+# em outras operações, pois o registro foi removido.
+DELETE  {{baseUri}}/categories/132 HTTP/1.1
+content-type: application/json

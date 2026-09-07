@@ -1,0 +1,107 @@
+name: poo-web
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: poo_web_php
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./apps/api:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - poo_web
+
+  nginx:
+    image: nginx:alpine
+    container_name: poo_web_nginx
+    restart: unless-stopped
+    ports:
+      - "8182:80"
+    volumes:
+      - ./apps/api:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - poo_web
+
+  mysql:
+    image: mysql:9
+    container_name: poo_web_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: poo_web
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: poo_web_usr
+      MYSQL_PASSWORD: poowebpwd
+    ports:
+      - "33106:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - poo_web
+
+  redis:
+    image: redis:8-alpine
+    container_name: poo_web_redis
+    restart: unless-stopped
+    ports:
+      - "63179:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - poo_web
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: poo_web_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8184:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    depends_on:
+      - mysql
+    networks:
+      - poo_web
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: poo_web_mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - poo_web
+
+  quasar:
+    container_name: poo_web_quasar
+    build:
+      context: .
+      dockerfile: docker/quasar/Dockerfile
+    working_dir: /app
+    volumes:
+      - ./apps/web:/app
+    ports:
+      - "9010:9000"
+    stdin_open: true
+    tty: true
+    command: sh
+    networks:
+      - poo_web
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  poo_web:
