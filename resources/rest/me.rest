@@ -1,0 +1,4 @@
+### Me
+GET {{baseUri}}/me HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{accessToken}}

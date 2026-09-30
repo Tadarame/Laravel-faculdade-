@@ -1,0 +1,10 @@
+@baseUri = http://127.0.0.1:8182/api
+
+### Login
+POST {{baseUri}}/auth/login HTTP/1.1
+content-type: application/json
+
+{
+  "username": "windler.kasandra@example.com",
+  "password": "password"
+}
