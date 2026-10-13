@@ -32,6 +32,12 @@ const linksList = [
     icon: 'category',
     link: '/admin/categories',
   },
+  {
+    label: 'Produtos',
+    caption: 'produtos',
+    icon: 'inventory_2',
+    link: '/admin/products',
+  },
 ]
 
 const leftDrawerOpen = ref(false)
