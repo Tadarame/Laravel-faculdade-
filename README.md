@@ -1,58 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ES & TADS - 2026
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Projeto exclusivo para uso didático na disciplina de **Programação Orientada a Objetos para Web (POO-WEB)** dos cursos:
+- **Engenharia de Software (ES)**
+- **Tecnologia em Análise e Desenvolvimento de Sistemas (TADS)**.
 
-## About Laravel
+# Setup
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Download
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Download do projeto completo
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```sh
+git clone git@github.com:cjchamado/tads-es-2026-poo-web.git poo-web
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Up
 
-## Contributing
+Subir os containers de serviços
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```sh
+cd poo-web
+```
 
-## Code of Conduct
+**EXECUTE APENAS UM DOS COMANDOS ABAIXO**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Opção 1 (verbose):**
+> Execute este comando na primeira execução, este formato permite que você analise se tudo está OK.
 
-## Security Vulnerabilities
+```sh
+docker compose up --build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Opção 2 (background):**
+> Para garantir que tudo está OK, utilize este formato somente depois da primeira vez que rodar os containers.
 
-## License
+```sh
+docker compose up --build -d
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Check
+
+Verificar se tudo está online (OK)
+
+```sh
+docker ps | grep poo_web
+```
+> Uma lista de containers em execução deve ser exibida após o comando.
+
+## API (Laravel)
+
+1. Acessar o container do php para execução dos comandos do laravel (artisan).
+
+```sh
+docker exec -it poo_web_php bash
+```
+
+2. Instalar as dependências
+> Apenas a primeira vez ou quando novas dependências forem adicionadas
+
+```sh
+composer install
+```
+
+3. Configurar o arquivo de variáveis de ambiente (.env)
+> As configurações básicas já estão definidas
+
+```sh
+cp .env.example .env
+```
+
+4. Gerar chave secreta da aplicação
+
+```sh
+php artisan key:generate
+```
+
+5. Inicializar migrations
+
+```sh
+php artisan migrate
+```
+
+## WEB (Quasar)
+
+1. Acessar o container do quasar para execução dos comandos para web.
+
+```sh
+docker exec -it poo_web_quasar bash
+```
+
+2. Instalar as dependências
+> Apenas a primeira vez ou quando novas dependências forem adicionadas
+
+```sh
+npm install
+```
+
+3. Executar a aplicação
+
+```sh
+quasar dev
+```
+
+# Acesso aos recursos web:
+
+- [**phpMyAdmin** - http://localhost:8184](http://localhost:8184)
+- [**API** - http://localhost:8182](http://localhost:8182)
+- [**WEB** - http://localhost:9010](http://localhost:9010)
+
+# Versionamento (Git / GitHub)
+
+Após a execução bem sucedida dos passos acima, serão passadas instruções para que cada aluno faça o apontamento correto do projeto para seu repositório individual.
