@@ -5,6 +5,7 @@ vendor
 
 # .env files
 .env*
+!.env.example
 
 # Quasar core related directories
 .quasar
