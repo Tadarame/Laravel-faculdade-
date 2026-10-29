@@ -14,19 +14,13 @@
           />
         </q-item-section>
         <q-item-section side>
-          <q-btn
-            round
-            flat
-            color="secondary"
-            icon="add"
-            to="/admin/products/create"
-          />
+          <q-btn round flat color="secondary" icon="add" to="/admin/products/create" />
         </q-item-section>
       </q-item>
-      <q-item
-        v-for="product in paging.data"
-        :key="product.id"
-      >
+      <q-item v-for="product in paging.data" :key="product.id">
+        <q-item-section v-if="product.image" avatar>
+          <q-img :src="product.image" width="64px" height="64px" fit="contain" />
+        </q-item-section>
         <q-item-section>
           <q-item-label>
             {{ product.name }}
@@ -37,18 +31,8 @@
         </q-item-section>
         <q-item-section side>
           <q-btn-group rounded flat>
-            <q-btn
-              flat
-              color="primary"
-              icon="edit"
-              :to="`/admin/products/${product.id}`"
-            />
-            <q-btn
-              flat
-              color="negative"
-              icon="delete"
-              @click="confirmToDelete(product)"
-            />
+            <q-btn flat color="primary" icon="edit" :to="`/admin/products/${product.id}`" />
+            <q-btn flat color="negative" icon="delete" @click="confirmToDelete(product)" />
           </q-btn-group>
         </q-item-section>
       </q-item>
@@ -66,9 +50,9 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import { deleteProduct, getProducts } from './_api';
-import { Dialog, Notify } from 'quasar';
+import { onMounted, ref } from 'vue'
+import { deleteProduct, getProducts } from './_api'
+import { Dialog, Notify } from 'quasar'
 
 const search = ref('')
 const paging = ref({
@@ -91,17 +75,19 @@ const confirmToDelete = (_product) => {
     message: 'Confirma exclusão do produto?',
     caption: 'Esta ação não pode ser desfeita',
   }).onOk(() => {
-    deleteProduct(_product.id).then(() => {
-      Notify.create('Produto excluído!')
-      fetchProducts()
-    }).catch((e) => {
-      console.log(e?.response)
-      Notify.create({
-        type: 'negative',
-        message: 'Falha na operação',
-        caption: e?.response?.data?.message ?? 'Analisar logs',
+    deleteProduct(_product.id)
+      .then(() => {
+        Notify.create('Produto excluído!')
+        fetchProducts()
       })
-    })
+      .catch((e) => {
+        console.log(e?.response)
+        Notify.create({
+          type: 'negative',
+          message: 'Falha na operação',
+          caption: e?.response?.data?.message ?? 'Analisar logs',
+        })
+      })
   })
 }
 

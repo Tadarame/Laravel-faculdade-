@@ -10,6 +10,7 @@ class ProductUpdateRequest extends ProductStoreRequest
             'category_id' => ['sometimes', 'nullable', 'integer', 'exists:categories,id'],
             'name' => ['sometimes', 'string', 'max:255'],
             'description' => ['sometimes', 'nullable', 'string'],
+            'image' => ['sometimes', 'nullable', 'url'],
             'price' => ['sometimes', 'numeric', 'min:0'],
             'enabled' => ['sometimes', 'boolean'],
             'stock' => ['sometimes', 'integer', 'min:0'],
